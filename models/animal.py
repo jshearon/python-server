@@ -8,5 +8,5 @@ class Animal():
         self.name = name
         self.species = species
         self.status = status
-        self.location_id = location_id
         self.customer_id = customer_id
+        self.location_id = location_id
