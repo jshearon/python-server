@@ -7,6 +7,13 @@ from customers import get_all_customers, get_single_customer, create_customer, d
 
 # Here's a class. It inherits from another class.
 class HandleRequests(BaseHTTPRequestHandler):
+    # Here's a class function
+    def _set_headers(self, status):
+        self.send_response(status)
+        self.send_header('Content-type', 'application/json')
+        self.send_header('Access-Control-Allow-Origin', '*')
+        self.end_headers()
+        
     def parse_url(self, path):
         path_params = path.split("/")
         resource = path_params[1]
@@ -35,13 +42,6 @@ class HandleRequests(BaseHTTPRequestHandler):
                 pass  # Request had trailing slash: /animals/
 
             return (resource, id)
-
-    # Here's a class function
-    def _set_headers(self, status):
-        self.send_response(status)
-        self.send_header('Content-type', 'application/json')
-        self.send_header('Access-Control-Allow-Origin', '*')
-        self.end_headers()
 
     # Here's a method on the class that overrides the parent's method.
     # It handles any GET request.
@@ -74,7 +74,7 @@ class HandleRequests(BaseHTTPRequestHandler):
                     response = f"{get_single_employee(id)}"
                 else:
                     response = f"{get_all_employees()}"
-            elif resource == "":
+            elif resource == "locations":
                 if id is not None:
                     response = f"{get_single_location(id)}"
                 else:
@@ -187,3 +187,6 @@ def main():
     host = ''
     port = 8088
     HTTPServer((host, port), HandleRequests).serve_forever()
+
+if __name__ == "__main__":
+    main()
